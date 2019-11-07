@@ -21,7 +21,12 @@
 		const xStrait = {};
 		const xStraitFound = [];
 		const yStrait = {};
-		const yStraitFound = [];
+    const yStraitFound = [];
+    
+    const lineUp = {};
+    const lineUpFound = [];
+		const lineDown = {};
+		const lineDownFound = [];
 
 		for (let i = 0; i < A.length; i++) {
 			if (maxX < A[i][0]) maxX = A[i][0];
@@ -33,33 +38,11 @@
 
 			if (!yStrait[A[i][1]]) yStrait[A[i][1]] = 0;
 			yStrait[A[i][1]]++;
-			if (yStrait[A[i][1]] === 3) yStraitFound.push(A[i][1]);
-		}
+      if (yStrait[A[i][1]] === 3) yStraitFound.push(A[i][1]);
+      
 
-		count += foundInAddToCount(xStraitFound, xStrait);
-		count += foundInAddToCount(yStraitFound, yStrait);
-
-		//count lines going Up /
-		const lineUp = {};
-		// zero x
-		for (let i = 0; i <= maxY - 2; i++) {
-			lineUp[`0${i}`] = 0;
-		}
-		// zero y
-		for (let i = 0; i <= maxX - 2; i++) {
-			lineUp[`${i}0`] = 0;
-		}
-
-		//count lines going Down \
-		const lineDown = {};
-		for (let i = maxX + maxY - 2; i >= 2; i--) {
-			lineDown[`0${i}`] = 0;
-		}
-
-		const lineUpFound = [];
-		const lineDownFound = [];
-		for (let i = 0; i < A.length; i++) {
-			const x = A[i][0];
+      // 
+      const x = A[i][0];
 			const y = A[i][1];
 
 			const xMinY = x - y;
@@ -68,41 +51,40 @@
 			let key;
 			if (
 				xMinY >= 0 &&
-				yMinx >= 0 &&
-				typeof lineUp[`${xMinY}${yMinx}`] === 'number'
+				yMinx >= 0 
 			) {
 				key = `${xMinY}${yMinx}`;
 			} else if (
 				xMinY >= 0 &&
-				yMinx < 0 &&
-				typeof lineUp[`${xMinY}0`] === 'number'
+				yMinx < 0 
 			) {
 				// y zero UP
 				key = `${xMinY}0`;
 			} else if (
 				xMinY < 0 &&
-				yMinx >= 0 &&
-				typeof lineUp[`0${yMinx}`] === 'number'
+				yMinx >= 0
 			) {
 				// x zero UP
 				key = `0${yMinx}`;
 			}
 
 			if (key) {
+        if (!lineUp[key])lineUp[key] = 0;
 				lineUp[key]++;
 				if (lineUp[key] === 3) lineUpFound.push(key);
 			}
 
-			const xPlusY = x + y;
-			if (typeof lineDown[`0${xPlusY}`] === 'number') {
-				lineDown[`0${xPlusY}`]++;
-				if (lineDown[`0${xPlusY}`] === 3) {
-					lineDownFound.push(`0${xPlusY}`);
-				}
-			}
-
-			//line Down
+      const xPlusY = x + y;
+      //line Down
+			if (!lineDown[`0${xPlusY}`]) lineDown[`0${xPlusY}`] = 0;
+      lineDown[`0${xPlusY}`]++;
+      if (lineDown[`0${xPlusY}`] === 3) {
+        lineDownFound.push(`0${xPlusY}`);
+      }
 		}
+
+		count += foundInAddToCount(xStraitFound, xStrait);
+		count += foundInAddToCount(yStraitFound, yStrait);
 
 		count += foundInAddToCount(lineUpFound, lineUp);
 		count += foundInAddToCount(lineDownFound, lineDown);
