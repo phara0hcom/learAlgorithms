@@ -1,10 +1,23 @@
 (function() {
+	/**
+	 * Will return the amount of lines of 3 points or can made with 3 unique points
+	 * @param {number} dotsInLine
+	 * 
+	 *  @returns {number} of lines of 3 points found
+	 */
 	function countLineOf3(dotsInLine) {
 		if (dotsInLine === 3) return 1;
 		if (dotsInLine > 3) return (dotsInLine - 3) * dotsInLine;
 		return 0;
 	}
 
+	/**
+	 * will go trough the array of found points on 1 axes and return the count of 3 point lines found
+	 * @param {array} foundInArr 
+	 * @param {object} matrix 
+	 * 
+	 * @returns {number}
+	 */
 	function foundInAddToCount(foundInArr, matrix) {
 		let count = 0;
 		for (let i = 0; i < foundInArr.length; i++) {
@@ -32,16 +45,17 @@
 			if (maxX < A[i][0]) maxX = A[i][0];
 			if (maxY < A[i][1]) maxY = A[i][1];
 
+			// find strait vertical points
 			if (!xStrait[A[i][0]]) xStrait[A[i][0]] = 0;
 			xStrait[A[i][0]]++;
 			if (xStrait[A[i][0]] === 3) xStraitFound.push(A[i][0]);
-
+			// find strait horizontal points
 			if (!yStrait[A[i][1]]) yStrait[A[i][1]] = 0;
 			yStrait[A[i][1]]++;
       if (yStrait[A[i][1]] === 3) yStraitFound.push(A[i][1]);
       
 
-      // 
+      // find points bottom left to top right
       const x = A[i][0];
 			const y = A[i][1];
 
@@ -75,7 +89,7 @@
 			}
 
       const xPlusY = x + y;
-      //line Down
+      //find points top left to bottom right
 			if (!lineDown[`0${xPlusY}`]) lineDown[`0${xPlusY}`] = 0;
       lineDown[`0${xPlusY}`]++;
       if (lineDown[`0${xPlusY}`] === 3) {
