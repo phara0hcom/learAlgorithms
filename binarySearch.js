@@ -3,39 +3,36 @@
    *
    * @param {Array} arr a sorted array of numbers
    * @param {Number} searchNr the number that is present in the array
+   * @param {Number} startInd the starting index where we need to search
+   * @param {Number} endInd the ending index where we need to search
    *
-   * @returns {Number} the searchNr that is found
+   * @returns {Number} the index where searchNr is found
    */
-  function binarySearch(arr, searchNr) {
-    // length of the array
-    const lengthArr = arr.length;
-    // if arr length is one
-    if (lengthArr === 1 && arr[0] === searchNr) {
-      return searchNr;
-    } else if (lengthArr === 1) {
+  function binarySearch(arr, searchNr, startInd = 0, endInd = null) {
+    // initialize endIndex
+    let endIndex = endInd;
+    if (!endIndex) endIndex = arr.length - 1;
+
+    // get the middle search index
+    const searchIndex = Math.floor((startInd + endIndex) / 2);
+    const searchedVal = arr[searchIndex];
+
+    if (startInd === endIndex && searchedVal !== searchNr) {
       return false;
     }
 
-    // Get the middle index of the array
-    const middleIndex = Math.round(lengthArr / 2);
-    const middleValue = arr[middleIndex];
-
     // Check the value of that key
-    // If middleValue equals the searchNr return the index
-    if (middleValue === searchNr) {
-      return searchNr;
+    // If searchedVal equals the searchNr return the index
+    if (searchedVal === searchNr) {
+      return searchIndex;
     }
-    // if middleValue is lower then call binarySearch with a new array with all index's above the middle index
-    else if (middleValue < searchNr) {
-      const newArr = arr.slice(middleIndex - 1);
-
-      return binarySearch(newArr, searchNr);
+    // if searchedVal is lower then call binarySearch with a new array with all index's above the middle index
+    else if (searchNr < searchedVal) {
+      return binarySearch(arr, searchNr, startInd, searchIndex - 1);
     }
-    // if middleValue is higher then call binarySearch with a new array with all index's below the middle index
-    else if (middleValue > searchNr) {
-      const newArr = arr.slice(0, middleIndex - 1);
-
-      return binarySearch(newArr, searchNr);
+    // if searchedVal is higher then call binarySearch with a new array with all index's below the middle index
+    else if (searchNr > searchedVal) {
+      return binarySearch(arr, searchNr, searchIndex + 1, endIndex);
     }
   }
 
