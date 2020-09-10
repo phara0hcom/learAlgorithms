@@ -95,6 +95,35 @@ function minSubArrayLen(arr, match) {
 
   return subLength;
 }
+// example from udemy
+function minSubArrayLen2(nums, sum) {
+  let total = 0;
+  let start = 0;
+  let end = 0;
+  let minLen = Infinity;
+ 
+  while (start < nums.length) {
+    // if current window doesn't add up to the given sum then 
+		// move the window to right
+    if(total < sum && end < nums.length){
+      total += nums[end];
+			end++;
+    }
+    // if current window adds up to at least the sum given then
+		// we can shrink the window 
+    else if(total >= sum){
+      minLen = Math.min(minLen, end-start);
+			total -= nums[start];
+			start++;
+    } 
+    // current total less than required total but we reach the end, need this or else we'll be in an infinite loop 
+    else {
+      break;
+    }
+  }
+ 
+  return minLen === Infinity ? 0 : minLen;
+}
 
 console.group('maxSubarraySum');
 console.log(minSubArrayLen([2, 3, 1, 2, 4, 3], 7)); // 2
@@ -105,3 +134,37 @@ console.log(minSubArrayLen([1, 4, 16, 22, 5, 7, 8, 9, 10], 55)); // 5
 console.log(minSubArrayLen([4, 3, 3, 8, 1, 2, 3], 11)); // 2
 console.log(minSubArrayLen([1, 4, 16, 22, 5, 7, 8, 9, 10], 95)); // 2
 console.groupEnd('maxSubarraySum');
+
+// Write a function called findLongestSubstring, which accepts a string and returns the length of the longest substring with all distinct characters.
+
+function findLongestSubstring(str) {
+  // add whatever parameters you deem necessary - good luck!
+  if (str.length < 2) return str.length;
+  let start = 0;
+  let seen = {};
+  let maxLng = 0;
+
+  for (let i = 0; i < str.length; i++) {
+    const char = str.charAt(i);
+    if (seen[char]) {
+      start = Math.max(start, seen[char]);
+    }
+    // index - beginning of substring + 1 (to include current
+    maxLng = Math.max(maxLng, i - start + 1);
+
+    // store the index of the next char so as to not double count
+    seen[char] = i + 1;
+  }
+
+  return maxLng;
+}
+
+console.group('findLongestSubstring');
+console.log(findLongestSubstring('')); // 0
+console.log(findLongestSubstring('rithmschool')); // 7
+console.log(findLongestSubstring('thisisawesome')); // 6
+console.log(findLongestSubstring('thecatinthehat')); // 7
+console.log(findLongestSubstring('bbbbbb')); // 1
+console.log(findLongestSubstring('longestsubstring')); // 8
+console.log(findLongestSubstring('thisishowwedoit')); // 6
+console.groupEnd('findLongestSubstring');
