@@ -59,14 +59,14 @@ function areThereDuplicates() {
   const lookup = {};
 
   for (let i = 0; i < arr.length; i++) {
-    const el = arr[i]
-    if (lookup[el]) return true
-    lookup[el] = 1
+    const el = arr[i];
+    if (lookup[el]) return true;
+    lookup[el] = 1;
   }
 
   return false;
 }
 
-console.log(areThereDuplicates(1,2,3));
-console.log(areThereDuplicates(1,2,1));
+console.log(areThereDuplicates(1, 2, 3));
+console.log(areThereDuplicates(1, 2, 1));
 console.log(areThereDuplicates('a', 'b', 'c', 'a'));
