@@ -65,7 +65,6 @@ export function kmpSearch(long, short) {
     } else if (si === 0) {
       li++;
     } else {
-      console.log({ si, li });
       si = subTable[si - 1];
     }
 
