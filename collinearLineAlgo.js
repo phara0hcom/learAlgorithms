@@ -1,4 +1,4 @@
-(function() {
+(function () {
   /**
    * calculate factorial of a single number
    * @param {number} n number to calculate the factorial of
@@ -22,7 +22,8 @@
    */
   function countLineOf3(dotsInLine) {
     if (dotsInLine === 3) return 1;
-    if (dotsInLine > 3) return factorial(dotsInLine) / factorial(dotsInLine - 3);
+    const factor = dotsInLine - 3;
+    if (dotsInLine > 3) return factorial(dotsInLine) / (factorial(3) * factorial(factor));
     return 0;
   }
 
@@ -46,8 +47,7 @@
     let count = 0;
     let maxX = 0;
     let maxY = 0;
-    const xStrait = {};
-    const xStraitFound = [];
+
     const yStrait = {};
     const yStraitFound = [];
 
@@ -60,14 +60,13 @@
       if (maxX < A[i][0]) maxX = A[i][0];
       if (maxY < A[i][1]) maxY = A[i][1];
 
-      // find strait vertical points
-      if (!xStrait[A[i][0]]) xStrait[A[i][0]] = 0;
-      xStrait[A[i][0]]++;
-      if (xStrait[A[i][0]] === 3) xStraitFound.push(A[i][0]);
       // find strait horizontal points
-      if (!yStrait[A[i][1]]) yStrait[A[i][1]] = 0;
-      yStrait[A[i][1]]++;
-      if (yStrait[A[i][1]] === 3) yStraitFound.push(A[i][1]);
+      const yAxe = A[i][1];
+      if (!yStrait[yAxe]) yStrait[yAxe] = 0;
+      yStrait[yAxe]++;
+      if (yStrait[yAxe] === 3) {
+        yStraitFound.push(yAxe);
+      }
 
       // find points bottom left to top right
       const x = A[i][0];
@@ -90,7 +89,9 @@
       if (key) {
         if (!lineUp[key]) lineUp[key] = 0;
         lineUp[key]++;
-        if (lineUp[key] === 3) lineUpFound.push(key);
+        if (lineUp[key] === 3) {
+          lineUpFound.push(key);
+        }
       }
 
       const xPlusY = x + y;
@@ -102,7 +103,6 @@
       }
     }
 
-    count += foundInAddToCount(xStraitFound, xStrait);
     count += foundInAddToCount(yStraitFound, yStrait);
 
     count += foundInAddToCount(lineUpFound, lineUp);
