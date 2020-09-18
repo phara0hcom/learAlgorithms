@@ -2,10 +2,11 @@ class Node {
   constructor(val) {
     this.val = val;
     this.next = null;
+    this.prev = null;
   }
 }
 
-class SinglyLinkedLists {
+class DoublyLinkedLists {
   constructor() {
     this.head = null;
     this.tail = null;
@@ -17,6 +18,7 @@ class SinglyLinkedLists {
     if (!this.head) {
       this.head = node;
     } else {
+      node.prev = this.tail;
       this.tail.next = node;
     }
     this.tail = node;
@@ -26,25 +28,22 @@ class SinglyLinkedLists {
   }
 
   pop() {
-    if (this.head === null) {
+    if (!this.head) {
       return undefined;
     }
-    let current = this.head;
+
+    const toDelete = this.tail;
     if (this.head.next === null) {
       this.head = null;
       this.tail = null;
     } else {
-      let pre = null;
-      while (current.next) {
-        pre = current;
-        current = current.next;
-      }
-      pre.next = null;
-      this.tail = pre;
+      this.tail = this.tail.prev;
+      this.tail.next = null;
     }
 
+    toDelete.prev = null;
     this.length -= 1;
-    return current;
+    return toDelete;
   }
 
   shift() {
@@ -52,14 +51,17 @@ class SinglyLinkedLists {
       return undefined;
     }
 
-    const del = this.head;
-    this.head = del.next;
+    const toDelete = this.head;
+    this.head = toDelete.next;
     if (!this.head) {
       this.tail = null;
+    } else {
+      this.head.prev = null;
     }
 
+    toDelete.next = null;
     this.length -= 1;
-    return del;
+    return toDelete;
   }
 
   unshift(val) {
@@ -68,6 +70,7 @@ class SinglyLinkedLists {
     if (!this.head) {
       this.tail = node;
     } else {
+      this.head.prev = node;
       node.next = this.head;
     }
 
@@ -90,11 +93,25 @@ class SinglyLinkedLists {
     if (validIndex instanceof Error) return validIndex;
 
     if (index < 0 || index >= this.length) return undefined;
+    const lastIndex = this.length - 1;
+    const half = lastIndex / 2;
     let counter = 0;
     let entry = this.head;
+    let startFromBeginning = true;
+    if (index > half) {
+      entry = this.tail;
+      counter = lastIndex;
+      startFromBeginning = false;
+    }
+
     while (counter !== index) {
-      entry = entry.next;
-      counter += 1;
+      if (startFromBeginning) {
+        entry = entry.next;
+        counter += 1;
+      } else {
+        entry = entry.prev;
+        counter -= 1;
+      }
     }
 
     return entry;
@@ -117,11 +134,15 @@ class SinglyLinkedLists {
     if (index === this.length) return !!this.push(val);
 
     const newNode = new Node(val);
-    const pre = this.get(index - 1);
+    const prev = this.get(index - 1);
 
-    if (pre && pre instanceof Node) {
-      newNode.next = pre.next;
-      pre.next = newNode;
+    if (prev && prev instanceof Node) {
+      const current = prev.next;
+      current.prev = newNode;
+      prev.next = newNode;
+      newNode.next = current;
+      newNode.prev = prev;
+
       this.length += 1;
 
       return true;
@@ -137,9 +158,15 @@ class SinglyLinkedLists {
     if (index === 0) return this.shift();
     if (index === this.length - 1) return this.pop();
 
-    const pre = this.get(index - 1);
-    const toDelete = pre.next;
-    pre.next = toDelete.next;
+    const toDelete = this.get(index);
+    const prevNode = toDelete.prev;
+    const nextNode = toDelete.next;
+
+    prevNode.next = nextNode;
+    nextNode.prev = prevNode;
+
+    toDelete.next = null;
+    toDelete.prev = null;
     this.length -= 1;
 
     return toDelete;
@@ -152,18 +179,19 @@ class SinglyLinkedLists {
     this.head = this.tail;
     this.tail = current;
 
-    let prev = null;
-    let next;
+    let nextNode;
 
     for (let i = 0; i < this.length; i++) {
-      next = current.next;
+      nextNode = current.next;
+      const { prev, next } = current;
       current.next = prev;
-      prev = current;
-      current = next;
+      current.prev = next;
+
+      current = nextNode;
     }
 
     return this;
   }
 }
 
-export default SinglyLinkedLists;
+export default DoublyLinkedLists;
