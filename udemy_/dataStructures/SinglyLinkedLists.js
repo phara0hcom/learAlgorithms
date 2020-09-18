@@ -51,9 +51,10 @@ class SinglyLinkedLists {
     if (this.head === null) {
       return undefined;
     }
+
     const del = this.head;
     this.head = this.head.next;
-    if (!this.head.next) {
+    if (!this.head) {
       this.tail = null;
     }
 
@@ -76,8 +77,18 @@ class SinglyLinkedLists {
     return this;
   }
 
+  validIndex(index) {
+    if (typeof index !== 'number' || Number.isNaN(index)) {
+      return new Error('pass a "number" as an argument');
+    }
+
+    return true;
+  }
+
   get(index) {
-    if (typeof index !== 'number') return new Error('ERROR: pass a "number" as an argument');
+    const validIndex = this.validIndex(index);
+    if (validIndex instanceof Error) return validIndex;
+
     if (index < 0 || index >= this.length) return undefined;
     let counter = 0;
     let entry = this.head;
@@ -91,7 +102,7 @@ class SinglyLinkedLists {
 
   set(index, val) {
     const set = this.get(index);
-    if (set) {
+    if (set && set instanceof Node) {
       set.val = val;
 
       return true;
@@ -101,12 +112,14 @@ class SinglyLinkedLists {
   }
 
   insert(index, val) {
+    if (this.validIndex(index) instanceof Error) return false;
     if (index === 0) return !!this.unshift(val);
     if (index === this.length) return !!this.push(val);
 
     const newNode = new Node(val);
     const pre = this.get(index - 1);
-    if (pre) {
+
+    if (pre && pre instanceof Node) {
       newNode.next = pre.next;
       pre.next = newNode;
       this.length += 1;
@@ -118,7 +131,9 @@ class SinglyLinkedLists {
   }
 
   remove(index) {
-    if (index < 0 || index >= this.length) return undefined;
+    if (index < 0 || index >= this.length || this.validIndex(index) instanceof Error) {
+      return undefined;
+    }
     if (index === 0) return this.shift();
     if (index === this.length - 1) return this.pop();
 
@@ -151,18 +166,4 @@ class SinglyLinkedLists {
   }
 }
 
-const list = new SinglyLinkedLists();
-
-console.log({ list });
-
-console.log(list.push('3'));
-console.log(list.push('4'));
-console.log(list.push('5'));
-console.log(list.unshift('2'));
-console.log(list.unshift('1'));
-
-console.log(list.reverse());
-
-console.log(list.head);
-console.log(list.head.next);
-console.log(list.head.next.next);
+export default SinglyLinkedLists;
