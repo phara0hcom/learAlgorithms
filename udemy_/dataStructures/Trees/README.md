@@ -21,6 +21,14 @@
 - Database Indices
 - Sorting Algorithms
 
+### TRAVERSING A TREE
+Two ways:
+
+1. Breadth-first Search
+2. Depth-first Search
+
+
+
 ## Binary Search Tree (BST)
 
 - Every parent node has at most two children
