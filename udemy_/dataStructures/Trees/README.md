@@ -22,12 +22,11 @@
 - Sorting Algorithms
 
 ### TRAVERSING A TREE
+
 Two ways:
 
 1. Breadth-first Search
 2. Depth-first Search
-
-
 
 ## Binary Search Tree (BST)
 
@@ -41,3 +40,20 @@ Insertion - O(log n)
 Searching - O(log n)
 
 NOT guaranteed!
+
+# Binary Heap
+
+**Very** similar to a binary search tree, but with some different rules!
+
+In a **MaxBinaryHeap**, parent nodes are always larger than child nodes. In a **MinBinaryHeap**, parent nodes are always smaller than child nodes
+
+## MAX BINARY HEAP
+
+- Each parent has at most two child nodes
+- The value of each parent node is always greater than its child nodes
+- In a max Binary Heap the parent is greater than the children, but there are no guarantees between sibling nodes.
+- A binary heap is as compact as possible. All the children of each node are as full as they can be and left children are filled out first
+
+## Why do we need to know this?
+
+Binary Heaps are used to implement Priority Queues, which are very commonly used data structures. They are also used quite a bit, with graph traversal algorithms.
