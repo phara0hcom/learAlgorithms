@@ -6,6 +6,7 @@
 // Very useful for keeping track of a subset of data in an array/string etc.
 
 // Write a function called maxSubarraySum which accepts an array of integers and a number called n. The function should calculate the maximum sum of n consecutive elements in the array.
+// Given an array of integers and a number, write a function called maxSubarraySum, which finds the maximum sum of a subarray with the length of the number passed to the function.
 
 function maxSubarraySum(arr, num) {
   let maxSum = 0;
@@ -20,31 +21,6 @@ function maxSubarraySum(arr, num) {
     tempSum = tempSum - arr[i - num] + arr[i];
     maxSum = Math.max(maxSum, tempSum);
   }
-  return maxSum;
-}
-
-console.log(maxSubarraySum([1, 2, 5, 2, 8, 1, 5], 2)); // 10
-console.log(maxSubarraySum([1, 2, 5, 2, 8, 1, 5], 4)); // 17
-console.log(maxSubarraySum([4, 2, 1, 6], 1)); // 6
-console.log(maxSubarraySum([4, 2, 1, 6, 2], 4)); // 13
-console.log(maxSubarraySum([], 4)); // null
-
-// Given an array of integers and a number, write a function called maxSubarraySum, which finds the maximum sum of a subarray with the length of the number passed to the function.
-
-function maxSubarraySum(arr, num) {
-  if (arr.length < num) return null;
-  let maxSum = 0;
-  let tempSum = 0;
-  for (let i = 0; i < num; i++) {
-    maxSum += arr[i];
-  }
-
-  tempSum = maxSum;
-  for (let j = num; j < arr.length; j++) {
-    tempSum = tempSum - arr[j - 1] + arr[j];
-    maxSum = Math.max(maxSum, tempSum);
-  }
-
   return maxSum;
 }
 
@@ -101,27 +77,27 @@ function minSubArrayLen2(nums, sum) {
   let start = 0;
   let end = 0;
   let minLen = Infinity;
- 
+
   while (start < nums.length) {
-    // if current window doesn't add up to the given sum then 
-		// move the window to right
-    if(total < sum && end < nums.length){
+    // if current window doesn't add up to the given sum then
+    // move the window to right
+    if (total < sum && end < nums.length) {
       total += nums[end];
-			end++;
+      end++;
     }
     // if current window adds up to at least the sum given then
-		// we can shrink the window 
-    else if(total >= sum){
-      minLen = Math.min(minLen, end-start);
-			total -= nums[start];
-			start++;
-    } 
-    // current total less than required total but we reach the end, need this or else we'll be in an infinite loop 
+    // we can shrink the window
+    else if (total >= sum) {
+      minLen = Math.min(minLen, end - start);
+      total -= nums[start];
+      start++;
+    }
+    // current total less than required total but we reach the end, need this or else we'll be in an infinite loop
     else {
       break;
     }
   }
- 
+
   return minLen === Infinity ? 0 : minLen;
 }
 
