@@ -34,7 +34,7 @@ Two ways:
 - Every node to the left of a parent node is always less than the parent
 - Every node to the right of a parent node is always greater than the parent
 
-### Big O
+### Big O of Binary Search Tree
 
 Insertion - O(log n)
 Searching - O(log n)
@@ -47,7 +47,7 @@ NOT guaranteed!
 
 In a **MaxBinaryHeap**, parent nodes are always larger than child nodes. In a **MinBinaryHeap**, parent nodes are always smaller than child nodes
 
-## MAX BINARY HEAP
+## MAX Binary Heap
 
 - Each parent has at most two child nodes
 - The value of each parent node is always greater than its child nodes
@@ -57,3 +57,9 @@ In a **MaxBinaryHeap**, parent nodes are always larger than child nodes. In a **
 ## Why do we need to know this?
 
 Binary Heaps are used to implement Priority Queues, which are very commonly used data structures. They are also used quite a bit, with graph traversal algorithms.
+
+## Big O of Binary Heap
+
+- Insertion -   O(log N)
+- Removal -   O(log N)
+- Search -   O(N)
