@@ -164,6 +164,23 @@ class SinglyLinkedLists {
 
     return this;
   }
+
+  //    3 -> 4 -> 5 -> 1 -> 2
+
+  rotate(index) {
+    if (index >= this.length) return undefined;
+    const positiveIndex = index < 0 ? this.length + index : index;
+    if (positiveIndex < 1) return undefined;
+    const newHead = this.get(positiveIndex);
+    const newTail = this.get(positiveIndex - 1);
+    newTail.next = null;
+
+    this.tail.next = this.head;
+    this.head = newHead;
+    this.tail = newTail;
+
+    return this;
+  }
 }
 
 export default SinglyLinkedLists;

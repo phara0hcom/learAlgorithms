@@ -4,7 +4,6 @@ export function fibonacci(n) {
 
   function fib(n) {
     if (fibMem[n]) {
-      console.log('it works', ++count);
       return fibMem[n];
     }
     if (n <= 2) return (fibMem[n] = 1);
@@ -13,7 +12,6 @@ export function fibonacci(n) {
 
   const test = fib(n);
 
-  console.log({ fibMem });
   return test;
 }
 

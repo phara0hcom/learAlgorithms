@@ -326,4 +326,17 @@ describe('SinglyLinkedLists', () => {
       tail: { next: null, val: 4 }
     });
   });
+
+  test('Test Rotate method', () => {
+    const testList = new SinglyLinkedLists();
+
+    testList.push('1').push('2').push('3').push('4').push('5');
+
+    expect(testList.rotate(2)).toBeObject().toContainAllKeys(['head', 'length', 'tail']);
+    expect(testList.head.val).toEqual('3');
+    expect(testList.head.next.val).toEqual('4');
+    expect(testList.head.next.next.val).toEqual('5');
+    expect(testList.head.next.next.next.val).toEqual('1');
+    expect(testList.tail.val).toEqual('2');
+  });
 });
