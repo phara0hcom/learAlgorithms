@@ -1,5 +1,47 @@
 import Graph from './Graph';
 
+const create_A_D_graph = () => {
+  const g = new Graph();
+
+  g.addVertex('A');
+  g.addVertex('B');
+  g.addVertex('C');
+  g.addVertex('D');
+  g.addVertex('E');
+  g.addVertex('F');
+
+  return g;
+};
+
+const createGraph = () => {
+  const g = create_A_D_graph();
+
+  g.addEdge('A', 'B');
+  g.addEdge('A', 'C');
+  g.addEdge('B', 'D');
+  g.addEdge('C', 'E');
+  g.addEdge('D', 'E');
+  g.addEdge('D', 'F');
+  g.addEdge('E', 'F');
+
+  return g;
+};
+
+const createGraph2 = () => {
+  const g = create_A_D_graph();
+
+  g.addEdge('A', 'B');
+  g.addEdge('A', 'E');
+  g.addEdge('B', 'C');
+  g.addEdge('B', 'D');
+  g.addEdge('E', 'D');
+  g.addEdge('E', 'F');
+  g.addEdge('C', 'D');
+  g.addEdge('F', 'D');
+
+  return g;
+};
+
 describe('Graph', () => {
   test('Test addVertex method', () => {
     const g = new Graph();
@@ -126,26 +168,12 @@ describe('Graph', () => {
   });
 
   test('Test dfsRecursive, dfsRecursive2 and dfsIterative method', () => {
+    const g = createGraph();
     const graph2 = new Graph();
-    const g = new Graph();
-
-    g.addVertex('A');
-    g.addVertex('B');
-    g.addVertex('C');
-    g.addVertex('D');
-    g.addVertex('E');
-    g.addVertex('F');
-
-    g.addEdge('A', 'B');
-    g.addEdge('A', 'C');
-    g.addEdge('B', 'D');
-    g.addEdge('C', 'E');
-    g.addEdge('D', 'E');
-    g.addEdge('D', 'F');
-    g.addEdge('E', 'F');
 
     expect(g.dfsRecursive('A')).toEqual(['A', 'B', 'D', 'E', 'C', 'F']);
     expect(g.dfsRecursive2('A')).toEqual(['A', 'B', 'D', 'E', 'C', 'F']);
+    expect(g.dfsIterative('A')).toEqual(['A', 'C', 'E', 'F', 'D', 'B']);
 
     graph2.addVertex('Dallas');
     graph2.addVertex('Tokyo');
@@ -196,5 +224,21 @@ describe('Graph', () => {
       'Paris',
       'Aspen'
     ]);
+    expect(graph2.dfsIterative('Kyoto')).toEqual([
+      'Kyoto',
+      'Dallas',
+      'Paris',
+      'Hong Kong',
+      'Aspen',
+      'Tokyo'
+    ]);
+  });
+
+  test('Test BREADTH Search', () => {
+    const g = createGraph();
+    const graph2 = createGraph2();
+
+    expect(g.bfs('A')).toEqual(['A', 'B', 'C', 'D', 'E', 'F']);
+    expect(graph2.bfs('A')).toEqual(['A', 'B', 'E', 'C', 'D', 'F']);
   });
 });

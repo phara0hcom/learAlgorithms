@@ -1,3 +1,6 @@
+import Stack from '../Stack';
+import Queue from '../Queue';
+
 class Graph {
   constructor() {
     this.adjacencyList = {};
@@ -60,7 +63,7 @@ class Graph {
     return visited;
   }
 
-  dfsRecursive2(vertex) {
+  dfsRecursive2(start) {
     const result = [];
     const visited = {};
 
@@ -78,7 +81,57 @@ class Graph {
       return result;
     };
 
-    return dsf(vertex);
+    return dsf(start);
+  }
+
+  dfsIterative(start) {
+    const que = new Stack();
+    const returnArr = [];
+    const visited = {};
+    que.push(start);
+    visited[start] = true;
+
+    while (que.size) {
+      const current = que.pop();
+      returnArr.push(current);
+      visited[current] = true;
+
+      const vArr = this.adjacencyList[current];
+      for (let i = 0; i < vArr.length; i++) {
+        const element = vArr[i];
+
+        if (!visited[element]) {
+          visited[element] = true;
+          que.push(element);
+        }
+      }
+    }
+
+    return returnArr;
+  }
+
+  bfs(start) {
+    const que = new Queue();
+    const returnArr = [];
+    const visited = {};
+    que.enqueue(start);
+
+    while (que.size) {
+      const current = que.dequeue();
+      returnArr.push(current);
+      visited[current] = true;
+
+      const vArr = this.adjacencyList[current];
+      for (let i = 0; i < vArr.length; i++) {
+        const element = vArr[i];
+        if (!visited[element]) {
+          visited[element] = true;
+          que.enqueue(element);
+        }
+      }
+    }
+
+    return returnArr;
   }
 }
 
