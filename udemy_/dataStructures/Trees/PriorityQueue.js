@@ -61,7 +61,10 @@ class PriorityQueue {
       const lPriority = lChild && lChild.priority ? lChild.priority : Infinity;
       const rPriority = rChild && rChild.priority ? rChild.priority : Infinity;
 
-      if (lPriority > element.priority && rPriority > element.priority) {
+      if (
+        (lPriority > element.priority || lPriority === element.priority) &&
+        (rPriority > element.priority || rPriority === element.priority)
+      ) {
         break;
       }
       if (lPriority < rPriority) {
