@@ -44,7 +44,41 @@ class Graph {
       this.adjacencyList[element] = this.adjacencyList[element].filter((el) => el !== vertex);
     }
 
-    delete this.adjacencyList[vertex]
+    delete this.adjacencyList[vertex];
+  }
+
+  dfsRecursive(vertex, visited = []) {
+    if (!this.adjacencyList[vertex]) return 'Vertex not found';
+    if (!this.adjacencyList[vertex].length) return visited;
+    visited.push(vertex);
+    const vArr = this.adjacencyList[vertex];
+    for (let i = 0; i < vArr.length; i++) {
+      const element = vArr[i];
+      if (!visited.includes(element)) this.dfsRecursive(element, visited);
+    }
+
+    return visited;
+  }
+
+  dfsRecursive2(vertex) {
+    const result = [];
+    const visited = {};
+
+    const dsf = (v) => {
+      if (!this.adjacencyList[v]) return 'Vertex not found';
+      if (!this.adjacencyList[v].length) return result;
+      result.push(v);
+      visited[v] = true;
+      const vArr = this.adjacencyList[v];
+      for (let i = 0; i < vArr.length; i++) {
+        const element = vArr[i];
+        if (!visited[element]) dsf(element, result);
+      }
+
+      return result;
+    };
+
+    return dsf(vertex);
   }
 }
 

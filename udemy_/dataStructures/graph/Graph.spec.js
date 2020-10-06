@@ -124,4 +124,77 @@ describe('Graph', () => {
       ['Hong Kong']: ['Tokyo']
     });
   });
+
+  test('Test dfsRecursive, dfsRecursive2 and dfsIterative method', () => {
+    const graph2 = new Graph();
+    const g = new Graph();
+
+    g.addVertex('A');
+    g.addVertex('B');
+    g.addVertex('C');
+    g.addVertex('D');
+    g.addVertex('E');
+    g.addVertex('F');
+
+    g.addEdge('A', 'B');
+    g.addEdge('A', 'C');
+    g.addEdge('B', 'D');
+    g.addEdge('C', 'E');
+    g.addEdge('D', 'E');
+    g.addEdge('D', 'F');
+    g.addEdge('E', 'F');
+
+    expect(g.dfsRecursive('A')).toEqual(['A', 'B', 'D', 'E', 'C', 'F']);
+    expect(g.dfsRecursive2('A')).toEqual(['A', 'B', 'D', 'E', 'C', 'F']);
+
+    graph2.addVertex('Dallas');
+    graph2.addVertex('Tokyo');
+    graph2.addVertex('Aspen');
+    graph2.addVertex('Hong Kong');
+    graph2.addVertex('Paris');
+    graph2.addVertex('Kyoto');
+
+    expect(graph2.adjacencyList).toEqual({
+      Aspen: [],
+      Dallas: [],
+      Kyoto: [],
+      Paris: [],
+      ['Hong Kong']: [],
+      Tokyo: []
+    });
+
+    graph2.addEdge('Dallas', 'Tokyo');
+    graph2.addEdge('Dallas', 'Aspen');
+    graph2.addEdge('Dallas', 'Kyoto');
+    graph2.addEdge('Hong Kong', 'Dallas');
+    graph2.addEdge('Paris', 'Dallas');
+    graph2.addEdge('Hong Kong', 'Tokyo');
+    graph2.addEdge('Tokyo', 'Paris');
+
+    expect(graph2.adjacencyList).toEqual({
+      Aspen: ['Dallas'],
+      Dallas: ['Tokyo', 'Aspen', 'Kyoto', 'Hong Kong', 'Paris'],
+      Tokyo: ['Dallas', 'Hong Kong', 'Paris'],
+      Kyoto: ['Dallas'],
+      Paris: ['Dallas', 'Tokyo'],
+      ['Hong Kong']: ['Dallas', 'Tokyo']
+    });
+
+    expect(graph2.dfsRecursive('Kyoto')).toEqual([
+      'Kyoto',
+      'Dallas',
+      'Tokyo',
+      'Hong Kong',
+      'Paris',
+      'Aspen'
+    ]);
+    expect(graph2.dfsRecursive2('Kyoto')).toEqual([
+      'Kyoto',
+      'Dallas',
+      'Tokyo',
+      'Hong Kong',
+      'Paris',
+      'Aspen'
+    ]);
+  });
 });
